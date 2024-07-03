@@ -86,7 +86,7 @@ d2[d2$year == "15", "height"] = 4 * d2[d2$year == "15", "height"]
 
 
 
-ggplot(d2, aes(y = height, x = id, color = year)) +
+p = ggplot(d2, aes(y = height, x = id, color = year)) +
   geom_point(aes(shape = conf_cat), size = 3) +
   geom_line(linewidth = 0.75) +
   facet_wrap(~block_plot, ncol = 1) +
@@ -94,6 +94,7 @@ ggplot(d2, aes(y = height, x = id, color = year)) +
   scale_shape_manual(values=c(16, 1, 4)) +
   theme_bw(12)
 
-
-
+png("figures/series-comp.png", width = 1600, height = 1200, res = 150)
+p
+dev.off()
 
