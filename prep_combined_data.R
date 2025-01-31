@@ -10,7 +10,7 @@ d2 = read_excel("data/2024.xlsx")
 d1 = d1 |>
   filter(experiment == "BDF") |>
   filter(is.na(dead.prob.curr)) |> # make sure it's not dead
-  mutate(browsed_forked_15 = any(!is.na(browsed.prob.curr), !is.na(forked.prob.curr))) |>
+  mutate(browsed_forked_15 = (!is.na(browsed.prob.curr)) | (!is.na(forked.prob.curr))) |>
   select(id, block, plot = seedlot, ht = ht.15, diam = d.15,
          shrub = sc, browsed_forked_15) |>
   mutate(id = as.numeric(id)) |>
@@ -90,18 +90,12 @@ summ = d |>
             mean_diam = mean(diam)) |>
   ungroup()
 
-
+# Vis to confirm it was done right
 ggplot(summ, aes(x = source_elev, y = mean_ht, color = block)) +
   geom_point() +
   geom_line() +
   facet_wrap(~year)
 
 
-
-
-
-
-
-
-
-
+# Save
+write_csv(d, "data/usfs_camp_2015-2024.csv")
